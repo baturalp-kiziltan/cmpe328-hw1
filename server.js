@@ -5,20 +5,31 @@
  * */
 
 /**
- * Import and/or initialize dependencies
+ * Import and initialize dependencies
  * */
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
 /**
- * Configure environment variables
+ * Configure & validate environment variable/s
  * */
 require('dotenv').config();
 const URI = process.env.DB_URI;
+if (URI == undefined) {
+    console.log(
+        `\u001b[1mERROR:\x1b[0m MongoDB URI is undefined: \n
+        1) You need to pass the URI as an environment variable or, \n
+        2) Define in source code directly (not recomended for collaborative and/or unsecure environments) \n
+        * See the documentation for more info. \n
+    \x1b[4m\u001b[1mProcess finished with exit code 1\x1b[0m
+    `);
+
+    process.exit(1);
+}
 
 /**
- * Use logger and bodyparser middlewares
+ * Use bodyparser middlewares
  * */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,8 +38,8 @@ app.use(express.urlencoded({ extended: false }));
  * Configure & connect to the database(MongoDB Atlas)
  * */
 try {
-    mongoose.connect(URI, { useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false })
-        .catch(err => { console.log(err) });
+    mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+        .catch(err => { "err:" + console.log(err) });
     mongoose.Promise = global.Promise;
 } catch (e) {
     console.log(`MONGODB::CONNECTION::ERROR::${e}`);
