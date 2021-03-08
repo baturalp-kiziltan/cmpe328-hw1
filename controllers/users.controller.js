@@ -157,6 +157,12 @@ module.exports.updateUser = (req, res) => {
         return;
     }
 
+    if (! emailValidator.validate(query.email)) {
+        res.status(400);
+        res.send('The email property is not valid');
+        return;
+    }
+
     User.findOneAndUpdate({ "id": searchID }, query, { upsert: false }, (err, doc) => {
         if (err) {
             console.log(err);
