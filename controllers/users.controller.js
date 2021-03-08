@@ -164,34 +164,34 @@ module.exports.updateUser = (req, res) => {
         return;
     }
 
-    User.findOneAndUpdate({ "id": searchID }, query, { upsert: false }, (err, doc) => {
-        if (err) {
-            console.log(err);
+    User.find({email: query.email}, (err1, docs) => {
+        if (err1) {
+            console.log(err1);
             res.sendStatus(500);
+        }
+
+        if (docs.length > 0) {
+            res.status(400);
+            res.send('A user with the desired email already exists');
             return;
         }
 
-        User.find({ email: query.mail }, (err1, docs) => {
-            if (err1) {
-                console.log(err1);
+        User.findOneAndUpdate({"id": searchID}, query, {upsert: false}, (err, doc) => {
+            if (err) {
+                console.log(err);
                 res.sendStatus(500);
-            }
-
-            if (docs.length > 0) {
-                res.status(400);
-                res.send('A user with the desired email already exists');
                 return;
             }
+
+            if (doc) {
+                res.status(200);
+                res.send('Updated successfully');
+                return;
+            }
+
+            res.status(404);
+            res.send(`There is no user with id of ${searchID}`);
         });
-
-        if (doc) {
-            res.status(200);
-            res.send('Updated successfully');
-            return;
-        }
-
-        res.status(404);
-        res.send(`There is no user with id of ${searchID}`);
     });
 }
 
