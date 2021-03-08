@@ -148,7 +148,7 @@ module.exports.updateUser = (req, res) => {
         query.surname = newSurname;
 
     if (newEmail !== undefined)
-        query.mail = newEmail;
+        query.email = newEmail;
 
     // Check if all values are undefined or not
     if (Object.keys(query).length === 0) {
