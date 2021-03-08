@@ -147,19 +147,20 @@ module.exports.updateUser = (req, res) => {
     if (newSurname !== undefined)
         query.surname = newSurname;
 
-    if (newEmail !== undefined)
-        query.email = newEmail;
+    if (newEmail !== undefined) {
+        if (emailValidator.validate(newEmail))
+            query.email = newEmail;
+        else {
+            res.status(400);
+            res.send('The email property is not valid');
+            return;
+        }
+    }
 
     // Check if all values are undefined or not
     if (Object.keys(query).length === 0) {
         res.status(400);
         res.send('At least one of the attributes has to be defined to update properly');
-        return;
-    }
-
-    if (! emailValidator.validate(query.email)) {
-        res.status(400);
-        res.send('The email property is not valid');
         return;
     }
 
