@@ -170,6 +170,19 @@ module.exports.updateUser = (req, res) => {
             return;
         }
 
+        User.find({ email: query.mail }, (err1, docs) => {
+            if (err1) {
+                console.log(err1);
+                res.sendStatus(500);
+            }
+
+            if (docs.length > 0) {
+                res.status(400);
+                res.send('A user with the desired email already exists');
+                return;
+            }
+        });
+
         if (doc) {
             res.status(200);
             res.send('Updated successfully');
