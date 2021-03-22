@@ -16,7 +16,7 @@ const app = express();
  * */
 require('dotenv').config();
 const URI = process.env.DB_URI;
-if (URI == undefined) {
+if (URI === undefined) {
     console.log(
         `\u001b[1mERROR:\x1b[0m MongoDB URI is undefined: \n
         1) You need to pass the URI as an environment variable or, \n
@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: false }));
  * */
 try {
     mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
-        .catch(err => { "err:" + console.log(err) });
+        .catch(err => { console.log("err: " + err) });
     mongoose.Promise = global.Promise;
 } catch (e) {
     console.log(`MONGODB::CONNECTION::ERROR::${e}`);
@@ -61,7 +61,7 @@ app.use((req, res, next) => {
 /**
  * Get port value from the environment or set default(3000)
  * */
-const port = (process.env.PORT || '3000');
+const port = (process.env.NODE_PORT || '3000');
 app.set('port', port);
 
 /**

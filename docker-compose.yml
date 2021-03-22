@@ -1,0 +1,21 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    image: cmpe328-hw1/nodejs
+    build: .
+    ports:
+    - "3000:8080"
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: test
+    image: mongo
+    restart: always
+    ports:
+    - "3001:27017"
+    volumes:
+      - /var/data:/data/db
