@@ -12,7 +12,7 @@ $ cd cmpe328-hw1/
 ```
 #### 3) Build docker image for the Node.js application:
 ```
-$ docker build -t cmpe328-hw1/nodejs
+$ docker build -t cmpe328-hw1/nodejs .
 ```
 #### 4) Run the Node.js app with MongoDB service using docker-compose:
 ```
